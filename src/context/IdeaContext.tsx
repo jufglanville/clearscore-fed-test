@@ -144,10 +144,10 @@ type UseTaskContextType = ReturnType<typeof useTaskContext>;
 const initialContextState: UseTaskContextType = {
   state: initialState,
   clearNotification: () => {},
-  sortTasks: (sortBy: SortType) => {},
+  sortTasks: (_sortBy: SortType) => {},
   addTask: () => {},
-  deleteTask: (id: string) => {},
-  saveTask: (task: TaskType) => {},
+  deleteTask: (_id: string) => {},
+  saveTask: (_task: TaskType) => {},
 };
 
 export const TaskContext =
