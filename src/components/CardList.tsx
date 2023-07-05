@@ -1,18 +1,18 @@
+import { useTask } from "../context/IdeaContext";
 import styled from "styled-components";
 import Card from "./Card";
-import { TaskType } from "../types";
 
-interface Props {
-  tasks: TaskType[];
-  onDelete: (id: string) => void;
-  onSave: (task: TaskType) => void;
-}
-
-const CardList = ({ tasks, onDelete, onSave }: Props) => {
+const CardList = () => {
+  const { tasks, deleteTask, saveTask } = useTask();
   return (
     <Container>
       {tasks.map((task) => (
-        <Card key={task.id} task={task} onDelete={onDelete} onSave={onSave} />
+        <Card
+          key={task.id}
+          task={task}
+          onDelete={deleteTask}
+          onSave={saveTask}
+        />
       ))}
     </Container>
   );

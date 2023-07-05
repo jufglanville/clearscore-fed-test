@@ -1,17 +1,17 @@
+import { useTask } from "../context/IdeaContext";
 import styled from "styled-components";
 import { SortType } from "../types";
 
-interface Props {
-  onSort: (sortBy: SortType) => void;
-}
 
-const Sort = ({ onSort }: Props) => {
+
+const Sort = () => {
+  const { sortTasks } = useTask();
   return (
     <Container>
       <Heading>Sort</Heading>
       <Select
         onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
-          onSort(e.target.value as SortType)
+          sortTasks(e.target.value as SortType)
         }
       >
         <option value="createdAtDesc">Date: Newest to Oldest</option>

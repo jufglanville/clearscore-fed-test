@@ -9,11 +9,13 @@ export type InputType = 'Title' | 'Description'
 
 export type SortType = 'createdAtDesc' | 'titleDesc' | 'titleAsc' | 'createdAtAsc'
 
-export interface State {
+export type EditType = {
+  isEdit: boolean
+  task: TaskType
+}
+
+export type StateType = {
   tasks: TaskType[];
-  edit: {
-    isEdit: boolean;
-    task: TaskType;
-  };
+  edit: EditType;
   notification: string;
 }

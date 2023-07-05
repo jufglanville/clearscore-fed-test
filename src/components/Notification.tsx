@@ -1,12 +1,10 @@
 import { useEffect } from "react";
+import { useNotification } from "../context/IdeaContext";
 import styled from "styled-components";
 
-interface Props {
-  notification: string;
-  clearNotification: () => void;
-}
+const Notification = () => {
+  const { notification, clearNotification } = useNotification();
 
-const Notification = ({ notification, clearNotification }: Props) => {
   useEffect(() => {
     if (notification) {
       const timeout = setTimeout(() => {
@@ -21,7 +19,7 @@ const Notification = ({ notification, clearNotification }: Props) => {
 
   return (
     <Container>
-      <NotificationCard notification={notification}>
+      <NotificationCard $notification={notification}>
         {notification}
       </NotificationCard>
     </Container>
@@ -35,14 +33,14 @@ const Container = styled.div`
   width: 100%;
 `;
 
-const NotificationCard = styled.div<{ notification: string }>`
+const NotificationCard = styled.div<{ $notification: string }>`
   text-align: center;
   padding: 1rem;
   background: #ffffff8a;
   border-radius: 0.5rem;
   z-index: 100;
   transform: translateY(
-    ${({ notification }) => (notification ? "0" : "-100%")}
+    ${({ $notification }) => ($notification ? "0" : "-100%")}
   );
   transition: all 0.3s ease-in-out;
 `;
