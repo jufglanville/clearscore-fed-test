@@ -1,6 +1,6 @@
-import { State } from "../types";
+import { StateType } from "../types";
 
-export const saveStateToLocalStorage = (state: State) => {
+export const saveStateToLocalStorage = (state: StateType) => {
   try {
     const serializedState = JSON.stringify(state);
     localStorage.setItem("ideaBoardState", serializedState);

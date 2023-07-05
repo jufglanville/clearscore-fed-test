@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { useTask } from "../context/IdeaContext";
 import styled from "styled-components";
 
