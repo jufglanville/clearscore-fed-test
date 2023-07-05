@@ -3,15 +3,13 @@ import styled from "styled-components";
 import Card from "./Card";
 
 const CardList = () => {
-  const { tasks, deleteTask, saveTask } = useTask();
+  const { tasks } = useTask();
   return (
     <Container>
       {tasks.map((task) => (
         <Card
           key={task.id}
           task={task}
-          onDelete={deleteTask}
-          onSave={saveTask}
         />
       ))}
     </Container>

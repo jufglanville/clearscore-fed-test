@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useTask } from "../context/IdeaContext";
 import styled from "styled-components";
 
 import { InputType, TaskType } from "../types";
@@ -10,17 +11,13 @@ import Input from "./Input";
 
 interface Props {
   task: TaskType;
-  onDelete: (id: string) => void;
-  onSave: (task: TaskType) => void;
 }
 
-const Card = ({ task, onDelete, onSave }: Props) => {
-  const [cardTask, setCardTask] = useState(task);
+const Card = ({ task }: Props) => {
+  const { deleteTask, saveTask, edit } = useTask();
 
   const handleChange = (type: InputType, value: string) => {
-    const newTask = { ...cardTask, [type.toLowerCase()]: value };
-    setCardTask(newTask);
-    onSave(newTask);
+    saveTask({ ...task, [type.toLowerCase()]: value });
   };
 
   return (
@@ -29,14 +26,14 @@ const Card = ({ task, onDelete, onSave }: Props) => {
         <Button
           type="delete"
           icon={deleteImg}
-          onClick={() => onDelete(cardTask.id)}
+          onClick={() => deleteTask(task.id)}
         />
       </ButtonContainer>
       <TitleContainer>
         <Input
           type="Title"
-          value={cardTask.title}
-          focus={true}
+          value={task.title}
+          focus={edit.isEdit}
           onChange={(val) => handleChange("Title", val)}
         />
       </TitleContainer>
@@ -44,12 +41,12 @@ const Card = ({ task, onDelete, onSave }: Props) => {
         <Input
           type="Description"
           maxLength={140}
-          value={cardTask.description}
+          value={task.description}
           onChange={(val) => handleChange("Description", val)}
         />
       </DescriptionContainer>
       <DateContainer>
-        <DateDisplay date={cardTask.createdAt} />
+        <DateDisplay date={task.createdAt} />
       </DateContainer>
     </CardElement>
   );

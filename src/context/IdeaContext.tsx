@@ -1,4 +1,4 @@
-import React, {
+import {
   ReactElement,
   createContext,
   useReducer,
@@ -19,6 +19,7 @@ export const initialState: StateType = savedState
         isEdit: false,
         task: new Task() as TaskType,
       },
+      notification: "",
     };
 
 interface AddToDo {
@@ -87,7 +88,7 @@ export const reducer = (state: StateType, action: ToDoAction): StateType => {
         (task: TaskType) => task.id === action.payload.id
       );
       const newTasks = [...state.tasks];
-      newTasks[index] = action.payload;
+      newTasks[index] = { ...action.payload, createdAt: new Date()};
       const newSaveState = {
         tasks: newTasks,
         edit: { isEdit: false, task: new Task() },
@@ -104,7 +105,9 @@ export const reducer = (state: StateType, action: ToDoAction): StateType => {
         notification: "",
       };
     case "CLEAR_NOTIFICATION":
-      return { ...state, notification: "" };
+      const clearNotificationState = { ...state, notification: "" };
+      saveStateToLocalStorage(clearNotificationState);
+      return clearNotificationState;
     default:
       return state;
   }
