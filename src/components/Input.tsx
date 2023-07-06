@@ -1,8 +1,8 @@
-import { useState } from "react";
-import styled from "styled-components";
-import { InputType } from "../types";
+import { useState } from 'react';
+import styled from 'styled-components';
+import { InputType } from '../types';
 
-import editImg from "../assets/edit.png";
+import editImg from '../assets/edit.png';
 
 interface Props {
   type: InputType;
@@ -26,13 +26,13 @@ const Input = ({ type, maxLength, focus, value, onChange }: Props) => {
   const saveValue = () => {
     // Compare current string with old string
     if (value !== inputValue) {
-      onChange(inputValue || "");
+      onChange(inputValue || '');
     }
     setIsFocused(false);
   };
 
   const onEnter = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
-    if (e.key === "Enter") {
+    if (e.key === 'Enter') {
       e.preventDefault();
       saveValue();
       e.currentTarget.blur();
@@ -40,13 +40,13 @@ const Input = ({ type, maxLength, focus, value, onChange }: Props) => {
   };
 
   const adjustTextAreaHeight = (e: React.FormEvent<HTMLTextAreaElement>) => {
-    e.currentTarget.style.height = "auto";
-    e.currentTarget.style.height = e.currentTarget.scrollHeight + "px";
+    e.currentTarget.style.height = 'auto';
+    e.currentTarget.style.height = e.currentTarget.scrollHeight + 'px';
   };
 
   return (
-    <Container>
-      <InputElement
+    <ScContainer>
+      <ScInputElement
         rows={1}
         autoFocus={isFocused}
         placeholder={`Enter a ${type}`}
@@ -58,20 +58,20 @@ const Input = ({ type, maxLength, focus, value, onChange }: Props) => {
         onInput={adjustTextAreaHeight}
       />
       {maxLength && isFocused && (
-        <MaxLength>
+        <ScMaxLength>
           {maxLength - (inputValue?.length || 0)} characters left
-        </MaxLength>
+        </ScMaxLength>
       )}
-    </Container>
+    </ScContainer>
   );
 };
 
-const Container = styled.div`
+const ScContainer = styled.div`
   position: relative;
   width: 100%;
 `;
 
-const InputElement = styled.textarea`
+const ScInputElement = styled.textarea`
   border: none;
   padding: 0.5rem 1.5rem 0.5rem 0.5rem;
   font-size: inherit;
@@ -94,7 +94,7 @@ const InputElement = styled.textarea`
   }
 `;
 
-const MaxLength = styled.p`
+const ScMaxLength = styled.p`
   position: absolute;
   bottom: -1rem;
   right: 0;

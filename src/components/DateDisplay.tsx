@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 interface Props {
   date: Date;
@@ -7,19 +7,19 @@ interface Props {
 const DateDisplay = ({ date }: Props) => {
   const formatDate = (date: Date) => {
     const format = new Date(date);
-    return format.toLocaleDateString("en-GB", {
-      hour: "2-digit",
-      minute: "2-digit",
-      day: "2-digit",
-      month: "2-digit",
-      year: "numeric",
+    return format.toLocaleDateString('en-GB', {
+      hour: '2-digit',
+      minute: '2-digit',
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric',
     });
   };
 
-  return <DateElement>Last modified: {formatDate(date)}</DateElement>;
+  return <ScDateElement>Last modified: {formatDate(date)}</ScDateElement>;
 };
 
-const DateElement = styled.p`
+const ScDateElement = styled.p`
   font-size: 0.8rem;
   font-style: italic;
   color: #000;

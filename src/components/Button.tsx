@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 interface Props {
   icon: string;
@@ -8,19 +8,19 @@ interface Props {
 
 const Button = ({ icon, type, onClick }: Props) => {
   return (
-    <Btn onClick={onClick}>
-      <Icon src={icon} alt={type} />
-    </Btn>
+    <ScButton onClick={onClick}>
+      <ScIcon src={icon} alt={type} />
+    </ScButton>
   );
 };
 
-const Btn = styled.button`
+const ScButton = styled.button`
   line-height: 0;
   border-radius: 50%;
   cursor: pointer;
 `;
 
-const Icon = styled.img<{ $color?: string }>`
+const ScIcon = styled.img<{ $color?: string }>`
   width: 2rem;
   height: 2rem;
 `;

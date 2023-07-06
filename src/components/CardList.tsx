@@ -1,22 +1,22 @@
-import { useTask } from "../context/IdeaContext";
-import styled from "styled-components";
-import Card from "./Card";
+import { TaskContext } from '../context/IdeaContext';
+import styled from 'styled-components';
+import Card from './Card';
+import { useContext } from 'react';
 
 const CardList = () => {
-  const { tasks } = useTask();
+  const { state } = useContext(TaskContext);
+  const { tasks } = state;
+
   return (
-    <Container>
-      {tasks.map((task) => (
-        <Card
-          key={task.id}
-          task={task}
-        />
+    <ScContainer>
+      {tasks.map(task => (
+        <Card key={task.id} task={task} />
       ))}
-    </Container>
+    </ScContainer>
   );
 };
 
-const Container = styled.div`
+const ScContainer = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(20rem, 1fr));
   gap: 3rem;

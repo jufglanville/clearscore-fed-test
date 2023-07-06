@@ -1,27 +1,26 @@
-import { useTask } from "../context/IdeaContext";
-import styled from "styled-components";
+import { TaskContext } from '../context/IdeaContext';
+import styled from 'styled-components';
 
-import Button from "./Button";
-import Sort from "./Sort";
-import addImg from "../assets/plus.png";
+import Button from './Button';
+import Sort from './Sort';
+import addImg from '../assets/plus.png';
+import { useContext } from 'react';
 
 const Header = () => {
-  const { addTask } = useTask();
+  const { addTask } = useContext(TaskContext);
 
   return (
-    <HeaderElement>
-      <Title>Idea Board</Title>
-      <Container>
+    <header>
+      <ScTitle>Idea Board</ScTitle>
+      <ScContainer>
         <Sort />
         <Button icon={addImg} type="add" onClick={addTask} />
-      </Container>
-    </HeaderElement>
+      </ScContainer>
+    </header>
   );
 };
 
-const HeaderElement = styled.header``;
-
-const Container = styled.div`
+const ScContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -32,7 +31,7 @@ const Container = styled.div`
   }
 `;
 
-const Title = styled.h1`
+const ScTitle = styled.h1`
   text-align: center;
   font-weight: 700;
   color: #ffffff9e;
