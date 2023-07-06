@@ -5,7 +5,6 @@ import { InputType, TaskType } from '../types';
 import deleteImg from '../assets/remove.png';
 
 import Button from './Button';
-import DateDisplay from './DateDisplay';
 import Input from './Input';
 import { useContext } from 'react';
 
@@ -19,6 +18,17 @@ const Card = ({ task }: Props) => {
 
   const handleChange = (type: InputType, value: string) => {
     saveTask({ ...task, [type.toLowerCase()]: value });
+  };
+
+  const formatDate = (date: Date) => {
+    const format = new Date(date);
+    return format.toLocaleDateString('en-GB', {
+      hour: '2-digit',
+      minute: '2-digit',
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric',
+    });
   };
 
   return (
@@ -46,9 +56,7 @@ const Card = ({ task }: Props) => {
           onChange={val => handleChange('Description', val)}
         />
       </ScDescriptionContainer>
-      <ScDateContainer>
-        <DateDisplay date={task.createdAt} />
-      </ScDateContainer>
+      <ScDateDisplay>Last modified: {formatDate(task.createdAt)}</ScDateDisplay>
     </ScCardElement>
   );
 };
@@ -77,9 +85,12 @@ const ScDescriptionContainer = styled.div`
   font-weight: 400;
 `;
 
-const ScDateContainer = styled.div`
+const ScDateDisplay = styled.p`
   align-self: flex-end;
   margin-top: auto;
+  font-size: 0.8rem;
+  font-style: italic;
+  color: #000;
 `;
 
 const ScButtonContainer = styled.div`
