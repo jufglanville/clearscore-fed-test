@@ -20,7 +20,7 @@ const ScButton = styled.button`
   cursor: pointer;
 `;
 
-const ScIcon = styled.img<{ $color?: string }>`
+const ScIcon = styled.img`
   width: 2rem;
   height: 2rem;
 `;
