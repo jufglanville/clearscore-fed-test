@@ -1,16 +1,17 @@
-import { useContext, useEffect } from 'react';
-import { TaskContext } from '../context/IdeaContext';
+import { useEffect } from 'react';
 import styled from 'styled-components';
 
-const Notification = () => {
-  const { state, clearNotification } = useContext(TaskContext);
-  const { notification } = state;
+interface Props {
+  notification: string;
+  clearNotification: () => void;
+}
 
+const Notification = ({ notification, clearNotification }: Props) => {
   useEffect(() => {
     if (notification) {
       const timeout = setTimeout(() => {
         clearNotification();
-      }, 3000);
+      }, 1000);
 
       return () => {
         clearTimeout(timeout);

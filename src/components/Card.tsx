@@ -1,67 +1,77 @@
-import { TaskContext } from '../context/IdeaContext';
+import { ChangeEvent, useState } from 'react';
 import styled from 'styled-components';
+import { useForm } from 'react-hook-form';
+import { ScFlex } from '../styled/styled';
 
 import { InputType, TaskType } from '../types';
 import deleteImg from '../assets/remove.png';
 
 import Button from './Button';
-import Input from './Input';
-import { useContext } from 'react';
+import formatDate from '../utilities/date-formatter';
 
 interface Props {
   task: TaskType;
+  onDelete: (id: string) => void;
+  onSave: (task: TaskType) => void;
 }
 
-const Card = ({ task }: Props) => {
-  const { deleteTask, saveTask, state } = useContext(TaskContext);
-  const { edit } = state;
+const Card = ({ task, onDelete, onSave }: Props) => {
+  const [showCharacterCount, setShowCharacterCount] = useState<boolean>(false);
+  const { register, watch, getValues, setFocus } = useForm<TaskType>({
+    defaultValues: task,
+  });
 
-  const handleChange = (type: InputType, value: string) => {
-    saveTask({ ...task, [type.toLowerCase()]: value });
+  const descriptionMaxLength = 140;
+  const description = watch('description', task.description);
+  const remainingCharacters = descriptionMaxLength - description.length;
+
+  const handleFocus = () => {
+    setShowCharacterCount(true);
   };
 
-  const formatDate = (date: Date) => {
-    const format = new Date(date);
-    return format.toLocaleDateString('en-GB', {
-      hour: '2-digit',
-      minute: '2-digit',
-      day: '2-digit',
-      month: '2-digit',
-      year: 'numeric',
-    });
+  const handleBlur = (e: ChangeEvent<HTMLTextAreaElement>) => {
+    setShowCharacterCount(false);
+    // Check if entered value is different from the original
+    const input = e.target.name as InputType;
+    const newInputValue = getValues(input);
+    if (task[input] === newInputValue) return;
+
+    // If different, save the new value
+    onSave({ ...task, [input]: newInputValue });
   };
 
   return (
     <ScCardElement>
       <ScButtonContainer>
         <Button
-          type="delete"
           icon={deleteImg}
-          onClick={() => deleteTask(task.id)}
+          type="delete"
+          onClick={() => onDelete(task.id)}
         />
       </ScButtonContainer>
-      <ScTitleContainer>
-        <Input
-          type="Title"
-          value={task.title}
-          focus={edit.isEdit}
-          onChange={val => handleChange('Title', val)}
-        />
-      </ScTitleContainer>
-      <ScDescriptionContainer>
-        <Input
-          type="Description"
-          maxLength={140}
-          value={task.description}
-          onChange={val => handleChange('Description', val)}
-        />
-      </ScDescriptionContainer>
-      <ScDateDisplay>Last modified: {formatDate(task.createdAt)}</ScDateDisplay>
+      <ScTitleContainer
+        rows={1}
+        placeholder="Title"
+        {...register('title')}
+        onBlur={handleBlur}
+        autoFocus={true}
+      />
+      <ScDescriptionContainer
+        placeholder="Description"
+        {...register('description')}
+        onBlur={handleBlur}
+        onFocus={handleFocus}
+        maxLength={descriptionMaxLength}
+      />
+      <ScFlex>
+        {showCharacterCount && <p>{remainingCharacters}</p>}
+        <ScDateDisplay>{formatDate(task.createdAt)}</ScDateDisplay>
+      </ScFlex>
     </ScCardElement>
   );
 };
 
-const ScCardElement = styled.div`
+const ScCardElement = styled.form`
   position: relative;
   display: flex;
   flex-direction: column;
@@ -73,21 +83,32 @@ const ScCardElement = styled.div`
     rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
 `;
 
-const ScTitleContainer = styled.div`
+const ScTitleContainer = styled.textarea`
   margin-bottom: 1rem;
   font-size: 1.5rem;
   font-weight: 600;
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+  &:focus {
+    background: #ffffff66;
+  }
 `;
 
-const ScDescriptionContainer = styled.div`
+const ScDescriptionContainer = styled.textarea`
   margin-bottom: 1rem;
   font-size: 1rem;
   font-weight: 400;
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+  &:focus {
+    background: #ffffff66;
+  }
 `;
 
 const ScDateDisplay = styled.p`
   align-self: flex-end;
   margin-top: auto;
+  margin-left: auto;
   font-size: 0.8rem;
   font-style: italic;
   color: #000;

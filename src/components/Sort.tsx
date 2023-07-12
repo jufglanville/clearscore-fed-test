@@ -1,16 +1,17 @@
-import { TaskContext } from '../context/IdeaContext';
 import styled from 'styled-components';
 import { SortType } from '../types';
-import { useContext } from 'react';
 
-const Sort = () => {
-  const { sortTasks } = useContext(TaskContext);
+interface Props {
+  onSort: (sortType: SortType) => void;
+}
+
+const Sort = ({ onSort }: Props) => {
   return (
     <ScContainer>
       <ScHeading>Sort</ScHeading>
       <ScSelect
         onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
-          sortTasks(e.target.value as SortType)
+          onSort(e.target.value as SortType)
         }
       >
         <option value="createdAtDesc">Date: Newest to Oldest</option>
@@ -32,6 +33,7 @@ const ScContainer = styled.div`
   border-radius: 0.5rem;
   overflow: hidden;
   height: 3rem;
+  width: fit-content;
 `;
 
 const ScHeading = styled.h2`

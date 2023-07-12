@@ -1,8 +1,8 @@
-import { StateType, SortType, TaskType } from '../types';
+import { SortType, TaskType } from '../types';
 import { saveStateToLocalStorage } from '../utilities/localStorage';
 
-interface AddToDo {
-  type: 'ADD_TODO';
+interface CreateToDo {
+  type: 'CREATE_TODO';
 }
 
 interface DeleteToDo {
@@ -10,8 +10,8 @@ interface DeleteToDo {
   payload: string;
 }
 
-interface SaveToDo {
-  type: 'SAVE_TODO';
+interface UpdateToDo {
+  type: 'UPDATE_TODO';
   payload: TaskType;
 }
 
@@ -25,9 +25,9 @@ interface ClearNotification {
 }
 
 export type ToDoAction =
-  | AddToDo
+  | CreateToDo
   | DeleteToDo
-  | SaveToDo
+  | UpdateToDo
   | SortToDo
   | ClearNotification;
 
@@ -48,56 +48,42 @@ const sortComparisons: Record<SortType, (a: TaskType, b: TaskType) => number> =
     titleDesc: (a, b) => b.title.localeCompare(a.title),
   };
 
-export const reducer = (state: StateType, action: ToDoAction): StateType => {
+export const ideaReducer = (
+  state: TaskType[],
+  action: ToDoAction,
+): TaskType[] => {
   switch (action.type) {
-    case 'ADD_TODO':
+    case 'CREATE_TODO':
       const newTask = {
         ...taskTemplate,
         id: Math.random().toString(36).substr(2, 9),
         createdAt: new Date(),
       };
-      const newAddState = {
-        tasks: [newTask, ...state.tasks],
-        edit: { isEdit: true, task: newTask },
-        notification: 'Task Added',
-      };
-      saveStateToLocalStorage(newAddState);
-      return newAddState;
+      const newTaskState = [newTask, ...state];
+      saveStateToLocalStorage(newTaskState);
+
+      return newTaskState;
+
     case 'DELETE_TODO':
-      const newDeleteState = {
-        tasks: state.tasks.filter(
-          (task: TaskType) => task.id !== action.payload,
-        ),
-        edit: { isEdit: false, task: taskTemplate },
-        notification: 'Task Deleted',
-      };
-      saveStateToLocalStorage(newDeleteState);
-      return newDeleteState;
-    case 'SAVE_TODO':
-      const index = state.tasks.findIndex(
+      const deleteTask = state.filter(
+        (task: TaskType) => task.id !== action.payload,
+      );
+      saveStateToLocalStorage(deleteTask);
+      return deleteTask;
+
+    case 'UPDATE_TODO':
+      const index = state.findIndex(
         (task: TaskType) => task.id === action.payload.id,
       );
-      const newTasks = [...state.tasks];
-      newTasks[index] = { ...action.payload, createdAt: new Date() };
-      const newSaveState = {
-        tasks: newTasks,
-        edit: { isEdit: false, task: taskTemplate },
-        notification: 'Task Updated',
-      };
-      saveStateToLocalStorage(newSaveState);
-      return newSaveState;
+      const updateTask = [...state];
+      updateTask[index] = { ...action.payload, createdAt: new Date() };
+      saveStateToLocalStorage(updateTask);
+      return updateTask;
+
     case 'SORT_TODO':
       const sortComparison = sortComparisons[action.payload];
-      const sortedTasks = [...state.tasks].sort(sortComparison);
-      return {
-        tasks: sortedTasks,
-        edit: { isEdit: false, task: taskTemplate },
-        notification: '',
-      };
-    case 'CLEAR_NOTIFICATION':
-      const clearNotificationState = { ...state, notification: '' };
-      saveStateToLocalStorage(clearNotificationState);
-      return clearNotificationState;
+      return [...state].sort(sortComparison);
+
     default:
       return state;
   }

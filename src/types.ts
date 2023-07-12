@@ -5,21 +5,10 @@ export type TaskType = {
   createdAt: Date;
 };
 
-export type InputType = 'Title' | 'Description';
+export type InputType = 'title' | 'description';
 
 export type SortType =
   | 'createdAtDesc'
   | 'titleDesc'
   | 'titleAsc'
   | 'createdAtAsc';
-
-export type EditType = {
-  isEdit: boolean;
-  task: TaskType;
-};
-
-export type StateType = {
-  tasks: TaskType[];
-  edit: EditType;
-  notification: string;
-};
