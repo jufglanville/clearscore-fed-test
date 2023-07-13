@@ -1,6 +1,12 @@
 import { SortType, TaskType } from '../types';
 import { saveStateToLocalStorage } from '../utilities/localStorage';
 
+type StateType = {
+  tasks: TaskType[];
+  notification: string;
+  isNewTask: boolean;
+};
+
 interface CreateToDo {
   type: 'CREATE_TODO';
 }
@@ -49,9 +55,9 @@ const sortComparisons: Record<SortType, (a: TaskType, b: TaskType) => number> =
   };
 
 export const ideaReducer = (
-  state: TaskType[],
+  state: StateType,
   action: ToDoAction,
-): TaskType[] => {
+): StateType => {
   switch (action.type) {
     case 'CREATE_TODO':
       const newTask = {
@@ -59,30 +65,53 @@ export const ideaReducer = (
         id: Math.random().toString(36).substr(2, 9),
         createdAt: new Date(),
       };
-      const newTaskState = [newTask, ...state];
+      const newTaskState = [newTask, ...state.tasks];
       saveStateToLocalStorage(newTaskState);
 
-      return newTaskState;
+      return {
+        tasks: newTaskState,
+        isNewTask: true,
+        notification: 'Task Created',
+      };
 
     case 'DELETE_TODO':
-      const deleteTask = state.filter(
+      const deleteTask = state.tasks.filter(
         (task: TaskType) => task.id !== action.payload,
       );
       saveStateToLocalStorage(deleteTask);
-      return deleteTask;
+      return {
+        tasks: deleteTask,
+        isNewTask: false,
+        notification: 'Task Deleted',
+      };
 
     case 'UPDATE_TODO':
-      const index = state.findIndex(
+      const index = state.tasks.findIndex(
         (task: TaskType) => task.id === action.payload.id,
       );
-      const updateTask = [...state];
+      const updateTask = [...state.tasks];
       updateTask[index] = { ...action.payload, createdAt: new Date() };
       saveStateToLocalStorage(updateTask);
-      return updateTask;
+      return {
+        tasks: updateTask,
+        isNewTask: false,
+        notification: 'Task Updated',
+      };
 
     case 'SORT_TODO':
       const sortComparison = sortComparisons[action.payload];
-      return [...state].sort(sortComparison);
+      const sorted = [...state.tasks].sort(sortComparison);
+      return {
+        tasks: sorted,
+        isNewTask: false,
+        notification: 'Tasks Sorted',
+      };
+
+    case 'CLEAR_NOTIFICATION':
+      return {
+        ...state,
+        notification: '',
+      };
 
     default:
       return state;

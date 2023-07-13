@@ -110,5 +110,6 @@ export const GlobalStyle = createGlobalStyle`
   /* Set Default Font */
   body {
     font-family: 'Montserrat', sans-serif;
+    user-select: none;
   }
 `;

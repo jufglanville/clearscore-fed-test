@@ -1,18 +1,15 @@
 import styled from 'styled-components';
 import { GlobalStyle } from './styled/global';
+import { ScHeading } from './styled/styled';
 
 import CardList from './components/CardList';
-// import Notification from './components/Notification';
-// import Header from './components/Header';
 
 function App() {
   return (
     <>
       <GlobalStyle />
       <ScBody>
-        {/* <Notification /> */}
-        {/* <Header /> */}
-        <ScTitle>Idea Board</ScTitle>
+        <ScHeading>Idea Board</ScHeading>
         <CardList />
       </ScBody>
     </>
@@ -39,13 +36,6 @@ const ScBody = styled.div`
     rgba(0, 0, 0, 0)
       linear-gradient(315deg, rgb(189, 5, 245) 100%, rgba(9, 245, 5, 0) 70%)
       repeat scroll 0% 0%;
-`;
-
-const ScTitle = styled.h1`
-  text-align: center;
-  font-weight: 700;
-  color: #ffffff9e;
-  font-size: 3rem;
 `;
 
 export default App;

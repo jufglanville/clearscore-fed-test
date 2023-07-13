@@ -12,3 +12,9 @@ export type SortType =
   | 'titleDesc'
   | 'titleAsc'
   | 'createdAtAsc';
+
+export type StateType = {
+  tasks: TaskType[];
+  notification: string;
+  isNewTask: boolean;
+};
