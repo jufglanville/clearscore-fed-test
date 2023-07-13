@@ -17,7 +17,7 @@ interface Props {
 
 const Card = ({ task, onDelete, onSave }: Props) => {
   const [showCharacterCount, setShowCharacterCount] = useState<boolean>(false);
-  const { register, watch, getValues, setFocus } = useForm<TaskType>({
+  const { register, watch, getValues } = useForm<TaskType>({
     defaultValues: task,
   });
 

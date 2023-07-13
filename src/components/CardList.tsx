@@ -53,13 +53,12 @@ const CardList = () => {
         clearNotification={() => setNotification('')}
       />
       <ScContainer>
-        {state.map((task, index) => (
+        {state.map(task => (
           <Card
             key={task.id}
             task={task}
             onDelete={handleDelete}
             onSave={handleSave}
-            // newTask={newTaskCreated && index === 0}
           />
         ))}
       </ScContainer>
