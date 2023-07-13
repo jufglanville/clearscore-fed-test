@@ -8,7 +8,8 @@ The app is deployed to Vercel and can be viewed here: https://clearscore-fed-tes
 
 1. `npm run dev` - Runs the app in development mode on http://localhost:5173
 2. `npm run build` - Builds the app for production
-3. `npm run test` - Runs the tests
+3. `npm run test` - Runs the Jest unit tests
+4. `npm run cy:open` - Opens the Cypress test runner
 
 ## Notes
 
