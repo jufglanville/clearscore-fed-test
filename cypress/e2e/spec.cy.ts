@@ -1,3 +1,16 @@
+const mockTasks = [
+  { title: 'Test Title', description: 'Test Description' },
+  { title: 'Another Test Title', description: 'Another Test Description' },
+  {
+    title: 'Yet Another Test Title',
+    description: 'Yet Another Test Description',
+  },
+  {
+    title: 'One More Test Title',
+    description: 'One More Test Description',
+  },
+];
+
 describe('Idea Board', () => {
   beforeEach(() => {
     cy.visit('/');
@@ -25,6 +38,15 @@ describe('Idea Board', () => {
     cy.get('textarea[placeholder="Description"]').type('Test Description');
   });
 
+  it('Saves the task to localStorage', () => {
+    cy.get('img[alt="add"]').click();
+    cy.get('textarea[placeholder="Title"]').type('Test Title');
+    cy.get('textarea[placeholder="Description"]')
+      .type('Test Description')
+      .blur();
+    cy.window().its('localStorage').invoke('getItem', 'tasks').should('exist');
+  });
+
   it('Calculates the character count for the Description', () => {
     const description = 'Test Description';
     const CharacterCount = (140 - description.length).toString();
@@ -34,7 +56,7 @@ describe('Idea Board', () => {
     cy.get('span').should('contain', CharacterCount);
   });
 
-  it('Displays the date and time the task weas created', () => {
+  it('Displays the date and time the task was created', () => {
     const date = new Date().toLocaleDateString('en-GB', {
       hour: '2-digit',
       minute: '2-digit',
@@ -57,20 +79,7 @@ describe('Idea Board', () => {
   });
 
   it('Allows the user to add multiple tasks', () => {
-    const tasks = [
-      { title: 'Test Title', description: 'Test Description' },
-      { title: 'Another Test Title', description: 'Another Test Description' },
-      {
-        title: 'Yet Another Test Title',
-        description: 'Yet Another Test Description',
-      },
-      {
-        title: 'One More Test Title',
-        description: 'One More Test Description',
-      },
-    ];
-
-    tasks.forEach(task => {
+    mockTasks.forEach(task => {
       cy.get('img[alt="add"]').click();
       cy.get('textarea[placeholder="Title"]').first().type(task.title);
       cy.get('textarea[placeholder="Description"]')
@@ -80,23 +89,7 @@ describe('Idea Board', () => {
   });
 
   it('Allows the user to sort the order of the tasks', () => {
-    const tasks = [
-      { title: 'Test Title', description: 'Test Description' },
-      {
-        title: 'Another Test Title',
-        description: 'Another Test Description',
-      },
-      {
-        title: 'Yet Another Test Title',
-        description: 'Yet Another Test Description',
-      },
-      {
-        title: 'One More Test Title',
-        description: 'One More Test Description',
-      },
-    ];
-
-    tasks.forEach(task => {
+    mockTasks.forEach(task => {
       cy.get('img[alt="add"]').click();
       cy.get('textarea[placeholder="Title"]').first().type(task.title);
       cy.get('textarea[placeholder="Description"]')
@@ -105,8 +98,30 @@ describe('Idea Board', () => {
     });
 
     cy.get('select').select('createdAtAsc');
+    cy.get('textarea[placeholder="Title"]')
+      .first()
+      .should('have.value', 'Test Title');
     cy.get('select').select('titleAsc');
+    cy.get('textarea[placeholder="Title"]')
+      .first()
+      .should('have.value', 'Another Test Title');
     cy.get('select').select('titleDesc');
+    cy.get('textarea[placeholder="Title"]')
+      .first()
+      .should('have.value', 'Yet Another Test Title');
     cy.get('select').select('createdAtDesc');
+    cy.get('textarea[placeholder="Title"]')
+      .first()
+      .should('have.value', 'One More Test Title');
+  });
+
+  it('Loads the tasks from localStorage', () => {
+    cy.window()
+      .its('localStorage')
+      .invoke('setItem', 'tasks', JSON.stringify(mockTasks));
+    cy.reload();
+    cy.get('textarea[placeholder="Title"]')
+      .first()
+      .should('have.value', 'Test Title');
   });
 });
