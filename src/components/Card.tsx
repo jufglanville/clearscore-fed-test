@@ -69,7 +69,7 @@ const Card = ({ task, newTask, onDelete, onSave }: Props) => {
         maxLength={descriptionMaxLength}
       />
       <ScFlex>
-        {showCharacterCount && <p>{remainingCharacters}</p>}
+        {showCharacterCount && <span>{remainingCharacters}</span>}
         <ScDateDisplay>{formatDate(task.createdAt)}</ScDateDisplay>
       </ScFlex>
     </ScForm>
