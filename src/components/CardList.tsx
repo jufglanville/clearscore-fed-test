@@ -49,7 +49,7 @@ const CardList = () => {
         notification={state.notification}
         clearNotification={clearNotification}
       />
-      <ScContainer>
+      <ScContainer data-testid="card-list">
         {state.tasks.map(task => (
           <Card
             key={task.id}

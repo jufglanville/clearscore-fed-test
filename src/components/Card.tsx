@@ -40,8 +40,9 @@ const Card = ({ task, newTask, onDelete, onSave }: Props) => {
     const newInputValue = getValues(input);
 
     // Check if entered value is different from the original
-    if (task[input] === newInputValue) return;
-    onSave({ ...task, [input]: newInputValue });
+    if (task[input] !== newInputValue) {
+      onSave({ ...task, [input]: newInputValue });
+    }
   };
 
   return (

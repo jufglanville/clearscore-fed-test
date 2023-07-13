@@ -3,7 +3,7 @@ import styled from 'styled-components';
 interface Props {
   icon: string;
   type: string;
-  onClick?: () => void;
+  onClick: () => void;
 }
 
 const Button = ({ icon, type, onClick }: Props) => {

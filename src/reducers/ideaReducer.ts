@@ -1,7 +1,7 @@
 import { SortType, TaskType } from '../types';
 import { saveStateToLocalStorage } from '../utilities/localStorage';
 
-type StateType = {
+export type StateType = {
   tasks: TaskType[];
   notification: string;
   isNewTask: boolean;
