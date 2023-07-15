@@ -3,7 +3,7 @@ import {
   StateType,
   ToDoAction,
   taskTemplate,
-} from './ideaReducer';
+} from './CardListReducer';
 
 const initialState: StateType = {
   tasks: [],

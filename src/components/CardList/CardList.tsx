@@ -1,14 +1,14 @@
 import { useReducer } from 'react';
-import { ideaReducer } from '../reducers/ideaReducer';
-import { SortType, TaskType, StateType } from '../types';
+import { cardListReducer } from './CardListReducer';
+import { SortType, TaskType, StateType } from '../../types';
 
-import { ScContainer, ScFlex } from '../styled/styled';
-import addImg from '../assets/plus.png';
+import * as Sc from './styles';
+import addImg from '../../assets/plus.png';
 
-import Card from './Card';
-import Sort from './Sort';
-import Notification from './Notification';
-import Button from './Button';
+import Card from '../Card/Card';
+import Sort from '../Sort/Sort';
+import Notification from '../Notification/Notification';
+import Button from '../Button/Button';
 
 const initialState: StateType = {
   tasks: JSON.parse(localStorage.getItem('tasks') || '[]'),
@@ -17,7 +17,7 @@ const initialState: StateType = {
 };
 
 const CardList = () => {
-  const [state, dispatch] = useReducer(ideaReducer, initialState);
+  const [state, dispatch] = useReducer(cardListReducer, initialState);
 
   const handleCreate = () => {
     dispatch({ type: 'CREATE_TODO' });
@@ -41,15 +41,15 @@ const CardList = () => {
 
   return (
     <>
-      <ScFlex>
+      <Sc.Flex>
         <Sort onSort={handleSort} />
         <Button icon={addImg} type="add" onClick={handleCreate} />
-      </ScFlex>
+      </Sc.Flex>
       <Notification
         notification={state.notification}
         clearNotification={clearNotification}
       />
-      <ScContainer data-testid="card-list">
+      <Sc.Container data-testid="card-list">
         {state.tasks.map(task => (
           <Card
             key={task.id}
@@ -59,7 +59,7 @@ const CardList = () => {
             newTask={state.isNewTask}
           />
         ))}
-      </ScContainer>
+      </Sc.Container>
     </>
   );
 };

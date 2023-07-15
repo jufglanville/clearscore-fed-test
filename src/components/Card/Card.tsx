@@ -1,18 +1,12 @@
 import { ChangeEvent, useState } from 'react';
-import styled from 'styled-components';
 import { useForm } from 'react-hook-form';
-import {
-  ScFlex,
-  ScForm,
-  ScTextAreaHeading,
-  ScTextAreaDescription,
-} from '../styled/styled';
+import * as Sc from './styles';
 
-import { InputType, TaskType } from '../types';
-import deleteImg from '../assets/remove.png';
+import { InputType, TaskType } from '../../types';
+import deleteImg from '../../assets/remove.png';
 
-import Button from './Button';
-import formatDate from '../utilities/dateFormatter';
+import Button from '../Button/Button';
+import formatDate from '../../utilities/dateFormatter';
 
 interface Props {
   task: TaskType;
@@ -46,50 +40,34 @@ const Card = ({ task, newTask, onDelete, onSave }: Props) => {
   };
 
   return (
-    <ScForm>
-      <ScButtonContainer>
+    <Sc.Form>
+      <Sc.ButtonContainer>
         <Button
           icon={deleteImg}
           type="delete"
           onClick={() => onDelete(task.id)}
         />
-      </ScButtonContainer>
-      <ScTextAreaHeading
+      </Sc.ButtonContainer>
+      <Sc.TextAreaHeading
         rows={1}
         placeholder="Title"
         {...register('title')}
         onBlur={handleSave}
         autoFocus={newTask}
       />
-      <ScTextAreaDescription
+      <Sc.TextAreaDescription
         placeholder="Description"
         {...register('description')}
         onBlur={handleSave}
         onFocus={handleFocus}
         maxLength={descriptionMaxLength}
       />
-      <ScFlex>
+      <Sc.Flex>
         {showCharacterCount && <span>{remainingCharacters}</span>}
-        <ScDateDisplay>{formatDate(task.createdAt)}</ScDateDisplay>
-      </ScFlex>
-    </ScForm>
+        <Sc.DateDisplay>{formatDate(task.createdAt)}</Sc.DateDisplay>
+      </Sc.Flex>
+    </Sc.Form>
   );
 };
-
-const ScDateDisplay = styled.p`
-  align-self: flex-end;
-  margin-top: auto;
-  margin-left: auto;
-  font-size: 0.8rem;
-  font-style: italic;
-  color: #000;
-`;
-
-const ScButtonContainer = styled.div`
-  position: absolute;
-  top: -1rem;
-  right: -0.5rem;
-  line-height: 0;
-`;
 
 export default Card;

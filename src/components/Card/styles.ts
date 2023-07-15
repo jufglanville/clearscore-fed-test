@@ -1,30 +1,13 @@
 import styled from 'styled-components';
 
-export const ScFlex = styled.div`
+export const Flex = styled.div`
   width: 100%;
   display: flex;
   align-items: center;
   justify-content: space-between;
 `;
 
-export const ScContainer = styled.div`
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(20rem, 1fr));
-  gap: 3rem;
-
-  @media (max-width: 500px) {
-    grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
-  }
-`;
-
-export const ScHeading = styled.h1`
-  text-align: center;
-  font-weight: 700;
-  color: #ffffff9e;
-  font-size: 3rem;
-`;
-
-export const ScForm = styled.form`
+export const Form = styled.form`
   position: relative;
   display: flex;
   flex-direction: column;
@@ -36,7 +19,7 @@ export const ScForm = styled.form`
     rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
 `;
 
-const ScTextArea = styled.textarea`
+const TextArea = styled.textarea`
   margin-bottom: 1rem;
   border-radius: 0.5rem;
   padding: 0.5rem;
@@ -46,12 +29,28 @@ const ScTextArea = styled.textarea`
   }
 `;
 
-export const ScTextAreaHeading = styled(ScTextArea)`
+export const TextAreaHeading = styled(TextArea)`
   font-size: 1.5rem;
   font-weight: 600;
 `;
 
-export const ScTextAreaDescription = styled(ScTextArea)`
+export const TextAreaDescription = styled(TextArea)`
   font-size: 1rem;
   font-weight: 400;
+`;
+
+export const DateDisplay = styled.p`
+  align-self: flex-end;
+  margin-top: auto;
+  margin-left: auto;
+  font-size: 0.8rem;
+  font-style: italic;
+  color: #000;
+`;
+
+export const ButtonContainer = styled.div`
+  position: absolute;
+  top: -1rem;
+  right: -0.5rem;
+  line-height: 0;
 `;

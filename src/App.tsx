@@ -1,8 +1,8 @@
 import styled from 'styled-components';
 import { GlobalStyle } from './styled/global';
-import { ScHeading } from './styled/styled';
+// import { ScHeading } from './styled/styled';
 
-import CardList from './components/CardList';
+import CardList from './components/CardList/CardList';
 
 function App() {
   return (
@@ -36,6 +36,13 @@ const ScBody = styled.div`
     rgba(0, 0, 0, 0)
       linear-gradient(315deg, rgb(189, 5, 245) 100%, rgba(9, 245, 5, 0) 70%)
       repeat scroll 0% 0%;
+`;
+
+const ScHeading = styled.h1`
+  font-size: 3rem;
+  font-weight: 700;
+  color: #ffffff8a;
+  text-align: center;
 `;
 
 export default App;

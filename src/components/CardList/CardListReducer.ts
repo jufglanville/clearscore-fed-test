@@ -1,5 +1,5 @@
-import { SortType, TaskType } from '../types';
-import { saveStateToLocalStorage } from '../utilities/localStorage';
+import { SortType, TaskType } from '../../types';
+import { saveStateToLocalStorage } from '../../utilities/localStorage';
 
 export type StateType = {
   tasks: TaskType[];
@@ -54,7 +54,7 @@ const sortComparisons: Record<SortType, (a: TaskType, b: TaskType) => number> =
     titleDesc: (a, b) => b.title.localeCompare(a.title),
   };
 
-export const ideaReducer = (
+export const cardListReducer = (
   state: StateType,
   action: ToDoAction,
 ): StateType => {
