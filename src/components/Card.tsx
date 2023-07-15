@@ -1,89 +1,91 @@
-import { useState } from "react";
-import styled from "styled-components";
+import { ChangeEvent, useState } from 'react';
+import styled from 'styled-components';
+import { useForm } from 'react-hook-form';
+import {
+  ScFlex,
+  ScForm,
+  ScTextAreaHeading,
+  ScTextAreaDescription,
+} from '../styled/styled';
 
-import { InputType, TaskType } from "../types";
-import deleteImg from "../assets/remove.png";
+import { InputType, TaskType } from '../types';
+import deleteImg from '../assets/remove.png';
 
-import Button from "./Button";
-import DateDisplay from "./DateDisplay";
-import Input from "./Input";
+import Button from './Button';
+import formatDate from '../utilities/dateFormatter';
 
 interface Props {
   task: TaskType;
+  newTask?: boolean;
   onDelete: (id: string) => void;
   onSave: (task: TaskType) => void;
 }
+const descriptionMaxLength = 140;
 
-const Card = ({ task, onDelete, onSave }: Props) => {
-  const [cardTask, setCardTask] = useState(task);
+const Card = ({ task, newTask, onDelete, onSave }: Props) => {
+  const [showCharacterCount, setShowCharacterCount] = useState<boolean>(false);
+  const { register, getValues, watch } = useForm<TaskType>({
+    defaultValues: task,
+  });
+  const description = watch('description', task.description);
+  const remainingCharacters = descriptionMaxLength - description.length;
 
-  const handleChange = (type: InputType, value: string) => {
-    const newTask = { ...cardTask, [type.toLowerCase()]: value };
-    setCardTask(newTask);
-    onSave(newTask);
+  const handleFocus = () => {
+    setShowCharacterCount(true);
+  };
+
+  const handleSave = (e: ChangeEvent<HTMLTextAreaElement>) => {
+    setShowCharacterCount(false);
+    const input = e.target.name as InputType;
+    const newInputValue = getValues(input);
+
+    // Check if entered value is different from the original
+    if (task[input] !== newInputValue) {
+      onSave({ ...task, [input]: newInputValue });
+    }
   };
 
   return (
-    <CardElement>
-      <ButtonContainer>
+    <ScForm>
+      <ScButtonContainer>
         <Button
-          type="delete"
           icon={deleteImg}
-          onClick={() => onDelete(cardTask.id)}
+          type="delete"
+          onClick={() => onDelete(task.id)}
         />
-      </ButtonContainer>
-      <TitleContainer>
-        <Input
-          type="Title"
-          value={cardTask.title}
-          focus={true}
-          onChange={(val) => handleChange("Title", val)}
-        />
-      </TitleContainer>
-      <DescriptionContainer>
-        <Input
-          type="Description"
-          maxLength={140}
-          value={cardTask.description}
-          onChange={(val) => handleChange("Description", val)}
-        />
-      </DescriptionContainer>
-      <DateContainer>
-        <DateDisplay date={cardTask.createdAt} />
-      </DateContainer>
-    </CardElement>
+      </ScButtonContainer>
+      <ScTextAreaHeading
+        rows={1}
+        placeholder="Title"
+        {...register('title')}
+        onBlur={handleSave}
+        autoFocus={newTask}
+      />
+      <ScTextAreaDescription
+        placeholder="Description"
+        {...register('description')}
+        onBlur={handleSave}
+        onFocus={handleFocus}
+        maxLength={descriptionMaxLength}
+      />
+      <ScFlex>
+        {showCharacterCount && <span>{remainingCharacters}</span>}
+        <ScDateDisplay>{formatDate(task.createdAt)}</ScDateDisplay>
+      </ScFlex>
+    </ScForm>
   );
 };
 
-const CardElement = styled.div`
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  background: #ffffff8a;
-  padding: 1rem;
-  border-radius: 0.5rem;
-  box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px,
-    rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
-`;
-
-const TitleContainer = styled.div`
-  margin-bottom: 1rem;
-  font-size: 1.5rem;
-  font-weight: 600;
-`;
-
-const DescriptionContainer = styled.div`
-  margin-bottom: 1rem;
-  font-size: 1rem;
-  font-weight: 400;
-`;
-
-const DateContainer = styled.div`
+const ScDateDisplay = styled.p`
   align-self: flex-end;
   margin-top: auto;
+  margin-left: auto;
+  font-size: 0.8rem;
+  font-style: italic;
+  color: #000;
 `;
 
-const ButtonContainer = styled.div`
+const ScButtonContainer = styled.div`
   position: absolute;
   top: -1rem;
   right: -0.5rem;

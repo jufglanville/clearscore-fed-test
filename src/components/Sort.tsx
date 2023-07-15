@@ -1,15 +1,15 @@
-import styled from "styled-components";
-import { SortType } from "../types";
+import styled from 'styled-components';
+import { SortType } from '../types';
 
 interface Props {
-  onSort: (sortBy: SortType) => void;
+  onSort: (sortType: SortType) => void;
 }
 
 const Sort = ({ onSort }: Props) => {
   return (
-    <Container>
-      <Heading>Sort</Heading>
-      <Select
+    <ScContainer>
+      <ScHeading>Sort</ScHeading>
+      <ScSelect
         onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
           onSort(e.target.value as SortType)
         }
@@ -18,13 +18,13 @@ const Sort = ({ onSort }: Props) => {
         <option value="createdAtAsc">Date: Oldest to Newest</option>
         <option value="titleAsc">Title: A to Z</option>
         <option value="titleDesc">Title: Z to A</option>
-      </Select>
-      <Chevron />
-    </Container>
+      </ScSelect>
+      <ScChevron />
+    </ScContainer>
   );
 };
 
-const Container = styled.div`
+const ScContainer = styled.div`
   position: relative;
   margin: 1rem 0;
   display: flex;
@@ -33,9 +33,10 @@ const Container = styled.div`
   border-radius: 0.5rem;
   overflow: hidden;
   height: 3rem;
+  width: fit-content;
 `;
 
-const Heading = styled.h2`
+const ScHeading = styled.h2`
   margin: 0;
   padding: 1rem 0.5rem 1rem 1rem;
   border-right: 1px solid transparent;
@@ -44,13 +45,13 @@ const Heading = styled.h2`
   line-height: 1;
 `;
 
-const Select = styled.select`
+const ScSelect = styled.select`
   cursor: pointer;
   padding: 1rem 2rem 1rem 0.5rem;
   background: #ffffff8a;
 `;
 
-const Chevron = styled.div`
+const ScChevron = styled.div`
   position: absolute;
   width: 10px;
   height: 10px;

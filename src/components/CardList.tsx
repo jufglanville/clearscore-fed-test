@@ -1,31 +1,67 @@
-import styled from "styled-components";
-import Card from "./Card";
-import { TaskType } from "../types";
+import { useReducer } from 'react';
+import { ideaReducer } from '../reducers/ideaReducer';
+import { SortType, TaskType, StateType } from '../types';
 
-interface Props {
-  tasks: TaskType[];
-  onDelete: (id: string) => void;
-  onSave: (task: TaskType) => void;
-}
+import { ScContainer, ScFlex } from '../styled/styled';
+import addImg from '../assets/plus.png';
 
-const CardList = ({ tasks, onDelete, onSave }: Props) => {
-  return (
-    <Container>
-      {tasks.map((task) => (
-        <Card key={task.id} task={task} onDelete={onDelete} onSave={onSave} />
-      ))}
-    </Container>
-  );
+import Card from './Card';
+import Sort from './Sort';
+import Notification from './Notification';
+import Button from './Button';
+
+const initialState: StateType = {
+  tasks: JSON.parse(localStorage.getItem('tasks') || '[]'),
+  notification: '',
+  isNewTask: false,
 };
 
-const Container = styled.div`
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(20rem, 1fr));
-  gap: 3rem;
+const CardList = () => {
+  const [state, dispatch] = useReducer(ideaReducer, initialState);
 
-  @media (max-width: 500px) {
-    grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
-  }
-`;
+  const handleCreate = () => {
+    dispatch({ type: 'CREATE_TODO' });
+  };
+
+  const handleDelete = (id: string) => {
+    dispatch({ type: 'DELETE_TODO', payload: id });
+  };
+
+  const handleSave = (task: TaskType) => {
+    dispatch({ type: 'UPDATE_TODO', payload: task });
+  };
+
+  const handleSort = (sort: SortType) => {
+    dispatch({ type: 'SORT_TODO', payload: sort });
+  };
+
+  const clearNotification = () => {
+    dispatch({ type: 'CLEAR_NOTIFICATION' });
+  };
+
+  return (
+    <>
+      <ScFlex>
+        <Sort onSort={handleSort} />
+        <Button icon={addImg} type="add" onClick={handleCreate} />
+      </ScFlex>
+      <Notification
+        notification={state.notification}
+        clearNotification={clearNotification}
+      />
+      <ScContainer data-testid="card-list">
+        {state.tasks.map(task => (
+          <Card
+            key={task.id}
+            task={task}
+            onDelete={handleDelete}
+            onSave={handleSave}
+            newTask={state.isNewTask}
+          />
+        ))}
+      </ScContainer>
+    </>
+  );
+};
 
 export default CardList;

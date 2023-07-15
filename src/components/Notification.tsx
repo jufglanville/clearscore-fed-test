@@ -1,5 +1,5 @@
-import { useEffect } from "react";
-import styled from "styled-components";
+import { useEffect } from 'react';
+import styled from 'styled-components';
 
 interface Props {
   notification: string;
@@ -11,7 +11,7 @@ const Notification = ({ notification, clearNotification }: Props) => {
     if (notification) {
       const timeout = setTimeout(() => {
         clearNotification();
-      }, 3000);
+      }, 1000);
 
       return () => {
         clearTimeout(timeout);
@@ -20,29 +20,29 @@ const Notification = ({ notification, clearNotification }: Props) => {
   }, [notification, clearNotification]);
 
   return (
-    <Container>
-      <NotificationCard notification={notification}>
+    <ScContainer>
+      <ScNotificationCard $notification={notification}>
         {notification}
-      </NotificationCard>
-    </Container>
+      </ScNotificationCard>
+    </ScContainer>
   );
 };
 
-const Container = styled.div`
+const ScContainer = styled.div`
   position: fixed;
   top: 0;
   right: 0;
   width: 100%;
 `;
 
-const NotificationCard = styled.div<{ notification: string }>`
+const ScNotificationCard = styled.div<{ $notification: string }>`
   text-align: center;
   padding: 1rem;
   background: #ffffff8a;
   border-radius: 0.5rem;
   z-index: 100;
   transform: translateY(
-    ${({ notification }) => (notification ? "0" : "-100%")}
+    ${({ $notification }) => ($notification ? '0' : '-100%')}
   );
   transition: all 0.3s ease-in-out;
 `;
