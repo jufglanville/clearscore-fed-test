@@ -8,6 +8,7 @@
     "build": "tsc && vite build",
     "preview": "vite preview",
     "test": "jest --coverage",
+    "test:watch": "jest --watch",
     "cy:open": "cypress open"
   },
   "dependencies": {
