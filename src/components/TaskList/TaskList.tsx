@@ -1,43 +1,53 @@
-import { useReducer } from 'react';
-import { cardListReducer } from './CardListReducer';
+import { useEffect, useReducer } from 'react';
+import { taskListReducer } from './TaskListReducer';
 import { SortType, TaskType, StateType } from '../../types';
 
 import * as Sc from './styles';
 import addImg from '../../assets/plus.png';
 
-import Card from '../Card/Card';
+import Card from '../TaskCard/TaskCard';
 import Sort from '../Sort/Sort';
 import Notification from '../Notification/Notification';
 import Button from '../Button/Button';
 
-const initialState: StateType = {
-  tasks: JSON.parse(localStorage.getItem('tasks') || '[]'),
-  notification: '',
-  isNewTask: false,
-};
+import { loadStateFromLocalStorage } from '../../utilities/localStorage';
 
 const CardList = () => {
-  const [state, dispatch] = useReducer(cardListReducer, initialState);
+  const initialState: StateType = {
+    tasks: [],
+    notification: '',
+    isNewTask: false,
+  };
+
+  const [state, dispatch] = useReducer(taskListReducer, initialState);
 
   const handleCreate = () => {
-    dispatch({ type: 'CREATE_TODO' });
+    dispatch({ type: 'CREATE_TASK' });
   };
 
   const handleDelete = (id: string) => {
-    dispatch({ type: 'DELETE_TODO', payload: id });
+    dispatch({ type: 'DELETE_TASK', taskId: id });
   };
 
   const handleSave = (task: TaskType) => {
-    dispatch({ type: 'UPDATE_TODO', payload: task });
+    dispatch({ type: 'UPDATE_TASK', task: task });
   };
 
   const handleSort = (sort: SortType) => {
-    dispatch({ type: 'SORT_TODO', payload: sort });
+    dispatch({ type: 'SORT_TASK', sortType: sort });
   };
 
   const clearNotification = () => {
     dispatch({ type: 'CLEAR_NOTIFICATION' });
   };
+
+  useEffect(() => {
+    const tasks = loadStateFromLocalStorage('tasks');
+
+    if (tasks) {
+      dispatch({ type: 'SET_TASKS', tasks: tasks });
+    }
+  }, []);
 
   return (
     <>

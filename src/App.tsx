@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { GlobalStyle } from './styled/global';
 // import { ScHeading } from './styled/styled';
 
-import CardList from './components/CardList/CardList';
+import TaskList from './components/TaskList/TaskList';
 
 function App() {
   return (
@@ -10,7 +10,7 @@ function App() {
       <GlobalStyle />
       <ScBody>
         <ScHeading>Idea Board</ScHeading>
-        <CardList />
+        <TaskList />
       </ScBody>
     </>
   );

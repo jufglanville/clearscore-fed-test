@@ -1,7 +1,7 @@
 import { render } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
-import Card from './Card';
+import Card from './TaskCard';
 
 const mockOnDelete = jest.fn();
 const mockOnSave = jest.fn();

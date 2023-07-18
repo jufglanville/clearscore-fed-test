@@ -1,7 +1,7 @@
 import { render } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
-import CardList from './CardList';
+import CardList from './TaskList';
 
 describe('CardList Component', () => {
   it('renders the card list', () => {
