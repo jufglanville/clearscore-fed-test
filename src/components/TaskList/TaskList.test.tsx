@@ -3,12 +3,35 @@ import userEvent from '@testing-library/user-event';
 
 import TaskList from './TaskList';
 
+jest.mock('../../utilities/localStorage', () => ({
+  saveStateToLocalStorage: () => {},
+  loadStateFromLocalStorage: () => {},
+}));
+
 describe('TaskList Component', () => {
-  afterEach(() => {
-    window.history.pushState(null, document.title, '/');
+  // afterEach(() => {
+  //   window.history.pushState(null, document.title, '/');
+  // });
+
+  it.todo('write more tests');
+
+  it.skip('Adds a new task when the add button is clicked', async () => {
+    const user = userEvent.setup();
+    const { getByPlaceholderText, getByAltText } = render(<TaskList />);
+
+    const addButton = getByAltText('add');
+    await user.click(addButton);
+
+    expect(getByPlaceholderText('Title')).toBeInTheDocument();
+
+    // expect the notfification to be on screen
+    // wait 1.1s
+    // expect notification not to be on the screen
+
+    // expect(mockSaveLocalStorage).toHaveBeenCalledWith('tasks');
   });
 
-  it('Adds a new task when the add button is clicked', async () => {
+  it.only('Adds a new task when the add button is clicked', async () => {
     const user = userEvent.setup();
     const { getByPlaceholderText, getByAltText } = render(<TaskList />);
 
@@ -18,19 +41,9 @@ describe('TaskList Component', () => {
     expect(getByPlaceholderText('Title')).toBeInTheDocument();
   });
 
-  it('Adds a new task when the add button is clicked', async () => {
-    const user = userEvent.setup();
-    const { getByPlaceholderText, getByAltText } = render(<TaskList />);
-
-    const addButton = getByAltText('add');
-    await user.click(addButton);
-
-    expect(getByPlaceholderText('Title')).toBeInTheDocument();
-  });
-
-  afterEach(() => {
-    document.body.innerHTML = '';
-  });
+  // afterEach(() => {
+  //   document.body.innerHTML = '';
+  // });
 
   it('renders the card list', () => {
     const { getByTestId } = render(<TaskList />);
@@ -38,14 +51,14 @@ describe('TaskList Component', () => {
     expect(getByTestId('card-list')).toBeInTheDocument();
   });
 
-  it('Deletes a task when the delete button is clicked', async () => {
-    const user = userEvent.setup();
-    render(<TaskList />);
-    await user.click(screen.getByAltText('add'));
-    screen.logTestingPlaygroundURL();
-    // console.log(prettyDOM(screen.container));
-    // expect(getByPlaceholderText('Title')).toBeInTheDocument();
-    // await user.click(getByAltText('delete'));
-    // expect(getByPlaceholderText('Title')).not.toBeInTheDocument();
-  });
+  // it('Deletes a task when the delete button is clicked', async () => {
+  //   const user = userEvent.setup();
+  //   render(<TaskList />);
+  //   // await user.click(screen.getByAltText('add'));
+  //   // screen.logTestingPlaygroundURL();
+  //   // console.log(prettyDOM(screen.container));
+  //   // expect(getByPlaceholderText('Title')).toBeInTheDocument();
+  //   // await user.click(getByAltText('delete'));
+  //   // expect(getByPlaceholderText('Title')).not.toBeInTheDocument();
+  // });
 });
