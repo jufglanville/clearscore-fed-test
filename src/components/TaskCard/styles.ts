@@ -7,6 +7,10 @@ export const Flex = styled.div`
   justify-content: space-between;
 `;
 
+export const Card = styled.div`
+  position: relative;
+`;
+
 export const Form = styled.form`
   position: relative;
   display: flex;
@@ -53,4 +57,5 @@ export const ButtonContainer = styled.div`
   top: -1rem;
   right: -0.5rem;
   line-height: 0;
+  z-index: 1;
 `;

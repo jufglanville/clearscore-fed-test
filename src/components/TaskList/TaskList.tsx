@@ -5,14 +5,14 @@ import { SortType, TaskType, StateType } from '../../types';
 import * as Sc from './styles';
 import addImg from '../../assets/plus.png';
 
-import Card from '../TaskCard/TaskCard';
-import Sort from '../Sort/Sort';
-import Notification from '../Notification/Notification';
-import Button from '../Button/Button';
+import { TaskCard } from '../TaskCard/TaskCard';
+import { Sort } from '../Sort/Sort';
+import { Notification } from '../Notification/Notification';
+import { Button } from '../Button/Button';
 
 import { loadStateFromLocalStorage } from '../../utilities/localStorage';
 
-const CardList = () => {
+export const CardList = () => {
   const initialState: StateType = {
     tasks: [],
     notification: '',
@@ -53,7 +53,7 @@ const CardList = () => {
     <>
       <Sc.Flex>
         <Sort onSort={handleSort} />
-        <Button icon={addImg} type="add" onClick={handleCreate} />
+        <Button icon={addImg} style="add" onClick={handleCreate} />
       </Sc.Flex>
       <Notification
         notification={state.notification}
@@ -61,7 +61,7 @@ const CardList = () => {
       />
       <Sc.Container data-testid="card-list">
         {state.tasks.map(task => (
-          <Card
+          <TaskCard
             key={task.id}
             task={task}
             onDelete={handleDelete}

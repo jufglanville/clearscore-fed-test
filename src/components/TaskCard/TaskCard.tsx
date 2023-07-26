@@ -5,7 +5,7 @@ import * as Sc from './styles';
 import { InputType, TaskType } from '../../types';
 import deleteImg from '../../assets/remove.png';
 
-import Button from '../Button/Button';
+import { Button } from '../Button/Button';
 import formatDate from '../../utilities/dateFormatter';
 
 interface Props {
@@ -16,11 +16,9 @@ interface Props {
 }
 const descriptionMaxLength = 140;
 
-const Card = ({ task, newTask, onDelete, onSave }: Props) => {
+export const TaskCard = ({ task, newTask, onDelete, onSave }: Props) => {
   const [showCharacterCount, setShowCharacterCount] = useState<boolean>(false);
-  const { register, getValues, watch } = useForm<TaskType>({
-    defaultValues: task,
-  });
+  const { register, getValues, watch } = useForm<TaskType>();
   const description = watch('description', task.description);
   const remainingCharacters = descriptionMaxLength - description.length;
 
@@ -40,34 +38,36 @@ const Card = ({ task, newTask, onDelete, onSave }: Props) => {
   };
 
   return (
-    <Sc.Form>
+    <Sc.Card>
       <Sc.ButtonContainer>
         <Button
           icon={deleteImg}
-          type="delete"
+          style="delete"
           onClick={() => onDelete(task.id)}
         />
       </Sc.ButtonContainer>
-      <Sc.TextAreaHeading
-        rows={1}
-        placeholder="Title"
-        {...register('title')}
-        onBlur={handleSave}
-        autoFocus={newTask}
-      />
-      <Sc.TextAreaDescription
-        placeholder="Description"
-        {...register('description')}
-        onBlur={handleSave}
-        onFocus={handleFocus}
-        maxLength={descriptionMaxLength}
-      />
-      <Sc.Flex>
-        {showCharacterCount && <span>{remainingCharacters}</span>}
-        <Sc.DateDisplay>{formatDate(task.createdAt)}</Sc.DateDisplay>
-      </Sc.Flex>
-    </Sc.Form>
+      <Sc.Form>
+        <Sc.TextAreaHeading
+          defaultValue={task.title}
+          rows={1}
+          placeholder="Title"
+          {...register('title')}
+          onBlur={handleSave}
+          autoFocus={newTask}
+        />
+        <Sc.TextAreaDescription
+          defaultValue={task.description}
+          placeholder="Description"
+          {...register('description')}
+          onBlur={handleSave}
+          onFocus={handleFocus}
+          maxLength={descriptionMaxLength}
+        />
+        <Sc.Flex>
+          {showCharacterCount && <span>{remainingCharacters}</span>}
+          <Sc.DateDisplay>{formatDate(task.createdAt)}</Sc.DateDisplay>
+        </Sc.Flex>
+      </Sc.Form>
+    </Sc.Card>
   );
 };
-
-export default Card;

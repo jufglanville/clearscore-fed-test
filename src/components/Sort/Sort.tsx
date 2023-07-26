@@ -5,7 +5,7 @@ interface Props {
   onSort: (sortType: SortType) => void;
 }
 
-const Sort = ({ onSort }: Props) => {
+export const Sort = ({ onSort }: Props) => {
   return (
     <Sc.Container>
       <Sc.Heading>Sort</Sc.Heading>
@@ -23,5 +23,3 @@ const Sort = ({ onSort }: Props) => {
     </Sc.Container>
   );
 };
-
-export default Sort;

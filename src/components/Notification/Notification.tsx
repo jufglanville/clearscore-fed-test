@@ -6,7 +6,7 @@ interface Props {
   clearNotification: () => void;
 }
 
-const Notification = ({ notification, clearNotification }: Props) => {
+export const Notification = ({ notification, clearNotification }: Props) => {
   useEffect(() => {
     if (notification) {
       const timeout = setTimeout(() => {
@@ -27,5 +27,3 @@ const Notification = ({ notification, clearNotification }: Props) => {
     </Sc.Container>
   );
 };
-
-export default Notification;

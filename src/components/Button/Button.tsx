@@ -2,16 +2,14 @@ import * as Sc from './styles';
 
 interface Props {
   icon: string;
-  type: string;
+  style: 'add' | 'delete';
   onClick: () => void;
 }
 
-const Button = ({ icon, type, onClick }: Props) => {
+export const Button = ({ icon, style, onClick }: Props) => {
   return (
     <Sc.Button onClick={onClick}>
-      <Sc.Icon src={icon} alt={type} />
+      <Sc.Icon src={icon} alt={style} />
     </Sc.Button>
   );
 };
-
-export default Button;
