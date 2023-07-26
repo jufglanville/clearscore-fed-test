@@ -125,7 +125,7 @@ export const taskListReducer = (
         ...state,
         notification: '',
       };
-
+    /* istanbul ignore next */
     default:
       return state;
   }
