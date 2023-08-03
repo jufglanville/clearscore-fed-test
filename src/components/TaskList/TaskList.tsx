@@ -59,7 +59,7 @@ export const CardList = () => {
         notification={state.notification}
         clearNotification={clearNotification}
       />
-      <Sc.Container data-testid="card-list">
+      <Sc.Container>
         {state.tasks.map(task => (
           <TaskCard
             key={task.id}

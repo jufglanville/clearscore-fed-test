@@ -16,7 +16,6 @@ function App() {
   );
 }
 
-// Could this be added to the global styles on the body?
 const ScBody = styled.div`
   margin: 0 auto;
   padding: 2rem;
